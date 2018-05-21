@@ -3,7 +3,7 @@
 ---
 **text similarity 文本相似度对比模块**
 
-###测试
+### 测试
 1. 下载模块
 ```shell
 mkdir test&&cd test&&npm init -y&&npm install https://github.com/leekafai/similarity.git 
@@ -13,7 +13,7 @@ mkdir test&&cd test&&npm init -y&&npm install https://github.com/leekafai/simila
 node ./node_modules/similarity/test.js
 ```
 ---
-###使用模块
+### 使用模块
 ```shell
 npm install https://github.com/leekafai/similarity.git
 ```
