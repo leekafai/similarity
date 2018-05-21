@@ -49,7 +49,8 @@
 
 
 <div class="description">
-    此模块用以生成simhash、输出相差度
+    此模块用以生成simhash、
+输出相差度
 </div>
 
 
@@ -122,7 +123,10 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const sim = require('./similarity')const chk = new sim()chk.hash(buffer)chk.distance('1011','1101')</code></pre>
+    <pre class="prettyprint"><code>const sim = require('./similarity')
+const chk = new sim()
+chk.hash(buffer)
+chk.distance('1011','1101')</code></pre>
 
 
 
@@ -152,7 +156,7 @@
     
 
     
-    <h4 class="name" id="auto"><span class="type-signature"></span>auto<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {object.&lt;distance, targetString, inputString>}</span></h4>
+    <h4 class="name" id="auto"><span class="type-signature"></span>auto<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {object.&lt;distance, targetString, inputString>|object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString>}</span></h4>
     
 
     
@@ -272,7 +276,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line88">line 88</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -296,10 +300,12 @@
 
 
 <h5>Returns:</h5>
-
-        
+<ul>
+        <li>
 <div class="param-desc">
-    - {distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
+    - sim-hash:
+
+{distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
 </div>
 
 
@@ -315,8 +321,30 @@
 
     </dd>
 </dl>
-
+</li>
     
+        <li>
+<div class="param-desc">
+    - jaro-winkler:
+
+{similarity:float 相似度，[targetString:string 目标文本，inputString:string 输入文本]}
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString></span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
 
 
 
@@ -455,7 +483,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line52">line 52</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -535,9 +563,11 @@
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>distabce(['1101','1011'],'1101')//return {1011:2,1101:0}</code></pre>
+    <pre class="prettyprint"><code>distabce(['1101','1011'],'1101')
+//return {1011:2,1101:0}</code></pre>
 
-    <pre class="prettyprint"><code>distabce('1011','1101')//return {1011:2}</code></pre>
+    <pre class="prettyprint"><code>distabce('1011','1101')
+//return {1011:2}</code></pre>
 
 
 
@@ -648,7 +678,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line31">line 31</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -801,7 +831,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -826,10 +860,104 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">配置auto方法的return。true:只输出距离。false：输出target字符串与input字符串。</td>
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">配置auto方法的return。true:只输出差异信息。false：输出target字符串与input字符串。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>autoAlgorithm</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'jaro-winkler'
+                
+                </td>
+            
+
+            <td class="description last">可选：'sim-hash','jaro-winkler'</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>autoCaseSensitive</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">可选，false：不区分大小写，true：区分大小写</td>
         </tr>
 
     
@@ -877,7 +1005,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line18">line 18</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -931,7 +1059,7 @@
     
 
     
-    <h4 class="name" id="auto"><span class="type-signature"></span>auto<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {object.&lt;distance, targetString, inputString>}</span></h4>
+    <h4 class="name" id="auto"><span class="type-signature"></span>auto<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {object.&lt;distance, targetString, inputString>|object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString>}</span></h4>
     
 
     
@@ -1051,7 +1179,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line88">line 88</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -1075,10 +1203,12 @@
 
 
 <h5>Returns:</h5>
-
-        
+<ul>
+        <li>
 <div class="param-desc">
-    - {distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
+    - sim-hash:
+
+{distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
 </div>
 
 
@@ -1094,8 +1224,30 @@
 
     </dd>
 </dl>
-
+</li>
     
+        <li>
+<div class="param-desc">
+    - jaro-winkler:
+
+{similarity:float 相似度，[targetString:string 目标文本，inputString:string 输入文本]}
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString></span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
 
 
 
@@ -1234,7 +1386,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line52">line 52</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -1314,9 +1466,11 @@
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>distabce(['1101','1011'],'1101')//return {1011:2,1101:0}</code></pre>
+    <pre class="prettyprint"><code>distabce(['1101','1011'],'1101')
+//return {1011:2,1101:0}</code></pre>
 
-    <pre class="prettyprint"><code>distabce('1011','1101')//return {1011:2}</code></pre>
+    <pre class="prettyprint"><code>distabce('1011','1101')
+//return {1011:2}</code></pre>
 
 
 
@@ -1427,7 +1581,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line31">line 31</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -1499,7 +1653,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 21 2018 11:14:56 GMT+0800 (中国标准时间)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 21 2018 15:37:38 GMT+0800 (中国标准时间)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -9,6 +9,7 @@
   "author": "leekafai",
   "license": "ISC",
   "dependencies": {
+    "jaro-winkler": "^0.2.8",
     "simhash": "^0.1.0"
   }
 }

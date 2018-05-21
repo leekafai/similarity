@@ -8,18 +8,21 @@
  * chk.hash(buffer)
  * chk.distance('1011','1101')
  */
-const simHash = require('simhash')()
+const SimHash = require('simhash')()
+const jw = require('jaro-winkler')
 const similarity = class {
   /**
-   *
    * @param {object} options - 配置项
-   * @param {boolean} options.autoSimple - 配置auto方法的return。true:只输出距离。false：输出target字符串与input字符串。
+   * @param {boolean}[options.autoSimple=false] - 配置auto方法的return。true:只输出差异信息。false：输出target字符串与input字符串。
+   * @param {string}[options.autoAlgorithm='jaro-winkler']  - 可选：'sim-hash','jaro-winkler'
+   * @param {boolean}[options.autoCaseSensitive=false] - 可选，false：不区分大小写，true：区分大小写
    */
   constructor (options) {
     this.options = {}
     if (options) {
-      this.options.outPutString = options.string
-      this.options.autoSimple = options.autoSimple
+      this.options.autoAlgorithm = options.autoAlgorithm || 'jaro-winkler' // 默认算法：'jaro-winkler'。
+      this.options.autoSimple = options.autoSimple || false // 默认在结果中所有信息
+      this.options.autoCaseSensitive = options.autoCaseSensitive || false // 默认不区分大小写
     }
   }
   /**
@@ -33,7 +36,7 @@ const similarity = class {
       console.warn('input must be string')
       return 0
     }
-    return simHash(content).join('')
+    return SimHash(content).join('')
   }
   /**
    *
@@ -83,25 +86,42 @@ const similarity = class {
   /**
    * @param {string} target 目标文本
    * @param {string} input 输入文本
-   * @return {object.<distance,targetString,inputString>} - {distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
+   * @return {object.<distance,targetString,inputString>} - sim-hash:
+   *
+   * {distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
+   * @return {object.<similarity,targetString,inputString>} - jaro-winkler:
+   *
+   * {similarity:float 相似度，[targetString:string 目标文本，inputString:string 输入文本]}
    */
   auto (target, input) {
-    let targetHash = this.hash(target)
-    let inputHash = this.hash(input)
-    if (targetHash.length === 32 && inputHash.length === 32) {
-      let distance = this.distance(targetHash, inputHash)
-      // console.log(distance, Object.values(distance))
-      let result = { distance: Object.values(distance)[0] }
-      // console.log(this.options, 'options')
+    if (this.options.autoAlgorithm === 'sim-hash') {
+      let targetHash = this.hash(target)
+      let inputHash = this.hash(input)
+      if (targetHash.length === 32 && inputHash.length === 32) {
+        let distance = this.distance(targetHash, inputHash)
+        // console.log(distance, Object.values(distance))
+        let result = { distance: Object.values(distance)[0] }
+        // console.log(this.options, 'options')
+        if (this.options) {
+          if (this.options.autoSimple === false) {
+            result.target = target
+            result.input = input
+          }
+        }
+        return result
+      }
+    } else if (this.options.autoAlgorithm === 'jaro-winkler') {
+      let result = { similarity: jw(target, input, { caseSensitive: this.options.autoCaseSensitive }) }
       if (this.options) {
         if (this.options.autoSimple === false) {
           result.target = target
           result.input = input
         }
       }
+      console.log(this.options, target, input)
       return result
     }
-
   }
 }
+
 module.exports = similarity
