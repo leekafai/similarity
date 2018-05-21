@@ -49,8 +49,7 @@
 
 
 <div class="description">
-    此模块用以生成simhash、
-输出相差度
+    此模块用以对比文本相似度
 </div>
 
 
@@ -123,10 +122,8 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const sim = require('./similarity')
-const chk = new sim()
-chk.hash(buffer)
-chk.distance('1011','1101')</code></pre>
+    <pre class="prettyprint"><code>const Sim = require('similarity')
+const chk = new Sim()</code></pre>
 
 
 
@@ -156,7 +153,7 @@ chk.distance('1011','1101')</code></pre>
     
 
     
-    <h4 class="name" id="auto"><span class="type-signature"></span>auto<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {object.&lt;distance, targetString, inputString>|object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString>}</span></h4>
+    <h4 class="name" id="isSimilarity"><span class="type-signature"></span>isSimilarity<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
     
@@ -276,409 +273,7 @@ chk.distance('1011','1101')</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line96">line 96</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-<ul>
-        <li>
-<div class="param-desc">
-    - sim-hash:
-
-{distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object.&lt;distance, targetString, inputString></span>
-
-
-    </dd>
-</dl>
-</li>
-    
-        <li>
-<div class="param-desc">
-    - jaro-winkler:
-
-{similarity:float 相似度，[targetString:string 目标文本，inputString:string 输入文本]}
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString></span>
-
-
-    </dd>
-</dl>
-</li>
-    </ul>
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="distance"><span class="type-signature"></span>distance<span class="signature">(flak, arrow<span class="signature-attributes">non-null</span>)</span><span class="type-signature"> &rarr; {Object.&lt;{hash:distance}>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    计算汉明距离(simhash)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>flak</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">作为比照对象的靶内容hash,不能为空</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>arrow</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">待比照的内容hash，不能为空</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line55">line 55</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-<h5>Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc">
-        -1：输入有误。
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">int</span>
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    汉明距离，大于等于0。
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object.&lt;{hash:distance}></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>distabce(['1101','1011'],'1101')
-//return {1011:2,1101:0}</code></pre>
-
-    <pre class="prettyprint"><code>distabce('1011','1101')
-//return {1011:2}</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="hash"><span class="type-signature"></span>hash<span class="signature">(content)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    生成simhash
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>content</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">buffer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">simhash的依据内容</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line34">line 34</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -705,7 +300,7 @@ chk.distance('1011','1101')</code></pre>
 
         
 <div class="param-desc">
-    string - hash值
+    当返回true时，两个文本可认为相似；当返回false时，两个文本可认为不相似。
 </div>
 
 
@@ -716,7 +311,7 @@ chk.distance('1011','1101')</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -767,6 +362,10 @@ chk.distance('1011','1101')</code></pre>
     
 
 
+
+<div class="description">
+    sim-hash distance越大，相似度越低；similarity percent越大，相似度越高。
+</div>
 
 
 
@@ -847,85 +446,7 @@ chk.distance('1011','1101')</code></pre>
 
         <tr>
             
-                <td class="name"><code>autoSimple</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">配置auto方法的return。true:只输出差异信息。false：输出target字符串与input字符串。</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>autoAlgorithm</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    'jaro-winkler'
-                
-                </td>
-            
-
-            <td class="description last">可选：'sim-hash','jaro-winkler'</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>autoCaseSensitive</code></td>
+                <td class="name"><code>caseSensitive</code></td>
             
 
             <td class="type">
@@ -958,6 +479,123 @@ chk.distance('1011','1101')</code></pre>
             
 
             <td class="description last">可选，false：不区分大小写，true：区分大小写</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>longTextLength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    300
+                
+                </td>
+            
+
+            <td class="description last">定义长文本的长度界限：其中一个字符串超过此长度时使用sim-hash，否则使用jaro-winkler。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>distanceNotPass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    3
+                
+                </td>
+            
+
+            <td class="description last">用于sim-hash，当sim-hash distance小于等于此值时，认为文本不相同；否则认为文本相同</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>similarityPass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">float</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.7
+                
+                </td>
+            
+
+            <td class="description last">用于jaro-winkler，当similarity percent大于等于此值时认为文本相同，否则认为文本不同</td>
         </tr>
 
     
@@ -1005,7 +643,7 @@ chk.distance('1011','1101')</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line20">line 20</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -1059,7 +697,7 @@ chk.distance('1011','1101')</code></pre>
     
 
     
-    <h4 class="name" id="auto"><span class="type-signature"></span>auto<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {object.&lt;distance, targetString, inputString>|object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString>}</span></h4>
+    <h4 class="name" id="isSimilarity"><span class="type-signature"></span>isSimilarity<span class="signature">(target, input)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
     
@@ -1179,409 +817,7 @@ chk.distance('1011','1101')</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line96">line 96</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-<ul>
-        <li>
-<div class="param-desc">
-    - sim-hash:
-
-{distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object.&lt;distance, targetString, inputString></span>
-
-
-    </dd>
-</dl>
-</li>
-    
-        <li>
-<div class="param-desc">
-    - jaro-winkler:
-
-{similarity:float 相似度，[targetString:string 目标文本，inputString:string 输入文本]}
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object.&lt;<a href="similarity.html">similarity</a>, targetString, inputString></span>
-
-
-    </dd>
-</dl>
-</li>
-    </ul>
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="distance"><span class="type-signature"></span>distance<span class="signature">(flak, arrow<span class="signature-attributes">non-null</span>)</span><span class="type-signature"> &rarr; {Object.&lt;{hash:distance}>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    计算汉明距离(simhash)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>flak</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">作为比照对象的靶内容hash,不能为空</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>arrow</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">待比照的内容hash，不能为空</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line55">line 55</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-<h5>Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc">
-        -1：输入有误。
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">int</span>
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    汉明距离，大于等于0。
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object.&lt;{hash:distance}></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>distabce(['1101','1011'],'1101')
-//return {1011:2,1101:0}</code></pre>
-
-    <pre class="prettyprint"><code>distabce('1011','1101')
-//return {1011:2}</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="hash"><span class="type-signature"></span>hash<span class="signature">(content)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    生成simhash
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>content</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">buffer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">simhash的依据内容</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line34">line 34</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -1608,7 +844,7 @@ chk.distance('1011','1101')</code></pre>
 
         
 <div class="param-desc">
-    string - hash值
+    当返回true时，两个文本可认为相似；当返回false时，两个文本可认为不相似。
 </div>
 
 
@@ -1619,7 +855,7 @@ chk.distance('1011','1101')</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1653,7 +889,7 @@ chk.distance('1011','1101')</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 21 2018 15:37:38 GMT+0800 (中国标准时间)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 21 2018 17:41:00 GMT+0800 (中国标准时间)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -27,30 +27,30 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * 此模块用以生成simhash、
- * 输出相差度
+ * 此模块用以对比文本相似度
  * @constructor similarity
  * @example
- * const sim = require('./similarity')
- * const chk = new sim()
- * chk.hash(buffer)
- * chk.distance('1011','1101')
+ * const Sim = require('similarity')
+ * const chk = new Sim()
  */
 const SimHash = require('simhash')()
 const jw = require('jaro-winkler')
 const similarity = class {
   /**
    * @param {object} options - 配置项
-   * @param {boolean}[options.autoSimple=false] - 配置auto方法的return。true:只输出差异信息。false：输出target字符串与input字符串。
-   * @param {string}[options.autoAlgorithm='jaro-winkler']  - 可选：'sim-hash','jaro-winkler'
-   * @param {boolean}[options.autoCaseSensitive=false] - 可选，false：不区分大小写，true：区分大小写
+   * @param {boolean}[options.caseSensitive=false] - 可选，false：不区分大小写，true：区分大小写
+   * @param {int}[options.longTextLength=300] - 定义长文本的长度界限：其中一个字符串超过此长度时使用sim-hash，否则使用jaro-winkler。
+   * @param {int}[options.distanceNotPass=3] - 用于sim-hash，当sim-hash distance小于等于此值时，认为文本不相同；否则认为文本相同
+   * @param {float}[options.similarityPass=0.7] - 用于jaro-winkler，当similarity percent大于等于此值时认为文本相同，否则认为文本不同
+   * @description sim-hash distance越大，相似度越低；similarity percent越大，相似度越高。
    */
   constructor (options) {
     this.options = {}
     if (options) {
-      this.options.autoAlgorithm = options.autoAlgorithm || 'jaro-winkler' // 默认算法：'jaro-winkler'。
-      this.options.autoSimple = options.autoSimple || false // 默认在结果中所有信息
-      this.options.autoCaseSensitive = options.autoCaseSensitive || false // 默认不区分大小写
+      this.options.caseSensitive = options.caseSensitive || false // 默认不区分大小写
+      this.options.longTextLength = options.longTextLength || 300
+      this.options.distancePass = options.distancePass || 3
+      this.options.similarityPass = options.similarityPass || 0.7
     }
   }
   /**
@@ -58,6 +58,7 @@ const similarity = class {
    * @param {buffer} content - simhash的依据内容
    * @returns {string} string - hash值
    * @description 生成simhash
+   * @ignore
    */
   hash (content) {
     if (typeof content !== 'string') {
@@ -67,7 +68,7 @@ const similarity = class {
     return SimHash(content).join('')
   }
   /**
-   *
+   * @ignore
    * @param {!string|!Array} flak - 作为比照对象的靶内容hash,不能为空
    * @param {!string} arrow - 待比照的内容hash，不能为空
    * @throws {int} -1：输入有误。
@@ -81,73 +82,63 @@ const similarity = class {
    * //return {1011:2}
    */
   distance (flak, arrow) {
-    if (flak.length &lt;= 0 || arrow.length &lt;= 0) return -1
-    if (typeof arrow !== 'string') return -1
-    if (typeof flak === 'string') {
-      let dis = 0
-      let result = {}
-      this.Flak = flak
-      this.Arrow = arrow
-      // console.log(this.Flak, this.Arrow)
-      if (this.Flak === this.Arrow) return { Flak: 0 }
-      for (let i = 0; i &lt; this.Flak.length; i++) {
-        if (this.Flak[i] !== this.Arrow[i]) dis++
-      }
-      result[flak] = dis
-      return result
-    } else if (Array.isArray(flak)) {
-      // console.log('flak:',flak)
-      let dstCount = 0
-      let dstObject = {}
-      this.Flak = flak
-      this.Arrow = arrow
-      for (let i = 0; i &lt; this.Flak.length; i++) {
-        dstCount = 0
-        for (let j = 0; j &lt; this.Flak[i].length; j++) {
-          if (this.Flak[i][j] !== this.Arrow[j]) dstCount++
-        }
-        dstObject[this.Flak[i]] = dstCount
-      }
-      return dstObject
-    } else return -1
+    let dis = 0
+    this.Flak = flak
+    this.Arrow = arrow
+    if (this.Flak === this.Arrow) return 0
+    for (let i = 0; i &lt; this.Flak.length; i++) {
+      if (this.Flak[i] !== this.Arrow[i]) dis++
+    }
+    return dis
   }
   /**
    * @param {string} target 目标文本
    * @param {string} input 输入文本
-   * @return {object.&lt;distance,targetString,inputString>} - sim-hash:
-   *
-   * {distance:int 距离，[targetString:string 目标文本，inputString:string 输入文本]}
-   * @return {object.&lt;similarity,targetString,inputString>} - jaro-winkler:
-   *
-   * {similarity:float 相似度，[targetString:string 目标文本，inputString:string 输入文本]}
+   * @return {boolean} 当返回true时，两个文本可认为相似；当返回false时，两个文本可认为不相似。
    */
-  auto (target, input) {
-    if (this.options.autoAlgorithm === 'sim-hash') {
+  isSimilarity (target, input) {
+    if (typeof target !== 'string' || typeof input !== 'string') throw new Error('input must be string')
+    // 任一字符串的长度大于设定值时，使用sim-hash
+    if (target.length >= this.options.longTextLength || target.length >= this.options.longTextLength) {
+      // 大小写不敏感，全部统一为小写
+      if (this.options.caseSensitive === false) {
+        target = target.toLocaleLowerCase()
+        input = target.toLocaleLowerCase()
+      }
       let targetHash = this.hash(target)
       let inputHash = this.hash(input)
       if (targetHash.length === 32 &amp;&amp; inputHash.length === 32) {
         let distance = this.distance(targetHash, inputHash)
         // console.log(distance, Object.values(distance))
-        let result = { distance: Object.values(distance)[0] }
+        let result = { distance: distance }
         // console.log(this.options, 'options')
         if (this.options) {
-          if (this.options.autoSimple === false) {
+          if (this.options.Simple === false) {
             result.target = target
             result.input = input
           }
         }
-        return result
-      }
-    } else if (this.options.autoAlgorithm === 'jaro-winkler') {
-      let result = { similarity: jw(target, input, { caseSensitive: this.options.autoCaseSensitive }) }
-      if (this.options) {
-        if (this.options.autoSimple === false) {
-          result.target = target
-          result.input = input
+        if (distance &lt;= this.options.distancePass) {
+          return true
+        } else {
+          return false
         }
+      } else {
+        throw new Error('hash must be a 32 long string')
       }
-      console.log(this.options, target, input)
-      return result
+      // 长度未大于设定值，使用jaro-winkler
+    } else {
+      let result = { similarity: jw(target, input, { caseSensitive: this.options.caseSensitive }) }
+      if (this.options.Simple === false) {
+        result.target = target
+        result.input = input
+      }
+      // console.log(this.options, target, input, jw(target, input, { caseSensitive: this.options.caseSensitive }))
+      if (jw(target, input, { caseSensitive: this.options.caseSensitive }) >= this.options.similarityPass) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }
@@ -169,7 +160,7 @@ module.exports = similarity
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 21 2018 15:37:38 GMT+0800 (中国标准时间)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 21 2018 17:41:00 GMT+0800 (中国标准时间)
 </footer>
 
 <script> prettyPrint(); </script>
