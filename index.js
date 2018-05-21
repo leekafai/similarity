@@ -118,7 +118,7 @@ const similarity = class {
           result.input = input
         }
       }
-      console.log(this.options, target, input)
+      // console.log(this.options, target, input)
       return result
     }
   }
