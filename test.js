@@ -16,7 +16,7 @@ console.log(ip2.length, tg2.length)// 683 1755
 console.log(sim.isSimilarity(ip2, tg2))// true
 console.log(sim.isSimilarity(CaseH, CaseL))// true
 const simCase = new Sim({
-  CaseSensitive: true
+  caseSensitive: true
 })
 console.log(simCase.isSimilarity(CaseH, CaseL)) // false
 console.log(simCase.isSimilarity(123, 123)) // Error: input must be string
