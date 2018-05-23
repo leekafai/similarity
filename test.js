@@ -1,6 +1,7 @@
 /**
  * @description 使用 sim-hash算法
  */
+const assert = require('assert')
 const Sim = require('./index')
 const sim = new Sim({
 })
@@ -10,13 +11,27 @@ let ip2 = '免费喊单，免费赠送风控方案，sdfasdfsadfsdfsdf先体验�
 let tg2 = '免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717免费喊单，免费赠送风控方案，免费制定回本方案，先体验实力在合作，赠送微信：MACD5717'
 let CaseH = 'HELLOWORLD'
 let CaseL = 'helloworld'
-console.log(input.length, target.length)// 159 136
-console.log(sim.isSimilarity(target, input))// true
-console.log(ip2.length, tg2.length)// 683 1755
-console.log(sim.isSimilarity(ip2, tg2))// true
-console.log(sim.isSimilarity(CaseH, CaseL))// true
-const simCase = new Sim({
-  caseSensitive: true
+describe(target, function () {
+  describe(input, function () {
+    it('should return true', function () {
+      assert.equal(sim.isSimilarity(target, input), true)
+    })
+  })
 })
-console.log(simCase.isSimilarity(CaseH, CaseL)) // false
-console.log(simCase.isSimilarity(123, 123)) // Error: input must be string
+describe(ip2, function () {
+  describe(tg2, function () {
+    it('should return true', function () {
+      assert.equal(sim.isSimilarity(tg2, ip2), true)
+    })
+  })
+})
+describe(CaseH, function () {
+  describe(CaseL, function () {
+    it('should return false', function () {
+      const simCase = new Sim({
+        caseSensitive: true
+      })
+      assert.equal(simCase.isSimilarity(CaseH, CaseL), false)
+    })
+  })
+})
